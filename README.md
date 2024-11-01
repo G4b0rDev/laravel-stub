@@ -27,6 +27,7 @@
 - [Security](#security)
 - [Changelog](#changelog)
 - [License](#license)
+- [Donate](#donate)
 
 <a name="introduction"></a>
 ## Introduction
@@ -251,3 +252,11 @@ The changelog can be found in the `CHANGELOG.md` file of the GitHub repository. 
 ## License
 
 The MIT License (MIT). Please see [License File](https://github.com/binafy/laravel-stub/blob/1.x/LICENSE) for more information.
+
+## Donate
+
+If this package is helpful for you, you can buy a coffee for me :) ❤️
+
+- Iraninan Gateway: https://daramet.com/milwad_khosravi
+- Paypal Gateway: SOON
+- MetaMask Address: `0xf208a562c5a93DEf8450b656c3dbc1d0a53BDE58`
