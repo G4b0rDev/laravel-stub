@@ -54,7 +54,7 @@ test('throw exception when stub path is invalid', function () {
 
     assertFileDoesNotExist(__DIR__ . '/../App/new-test.php');
     assertFileExists(__DIR__ . '/../App/test.stub');
-})->expectExceptionMessage('The stub file does not exist, please enter a valid path.');
+})->expectExceptionMessage('The test.stub stub file does not exist, please enter a valid path.');
 
 test('throw exception when destination path is invalid', function () {
     LaravelStub::from(__DIR__ . '/test.stub')
