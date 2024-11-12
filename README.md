@@ -21,6 +21,7 @@
     - [`replace`](#replace)
     - [`replaces`](#replaces)
     - [`moveStub`](#move-stub)
+    - [`conditions`](#conditions)
     - [`download`](#download)
     - [`generate`](#generate)
 - [Contributors](#contributors)
@@ -181,6 +182,49 @@ LaravelStub::from(__DIR__ . 'model.stub')
 ```
 
 After running this code, the `model.stub` didn't exist.
+
+<a name="conditions"></a>
+### `conditions`
+
+The `conditions` method allows you to define conditional blocks within your stub files.
+You can specify conditions that determine whether certain parts of the stub should be included or excluded based on provided values or closures.
+
+```php
+<?php
+LaravelStub::from(__DIR__ . 'model.stub')
+    ->to(__DIR__ . '/App')
+    ->name('new-model')
+    ->ext('php')
+    ->replaces([
+        'NAMESPACE' => 'App',
+        'CLASS' => 'Milwad'
+    ])
+    ->conditions([
+        'hasController' => true,
+        'hasController' => fn() => return false, // or with closure
+    ])
+    ->generate();
+```
+
+> NOTE: Ensure that your stub files contain the appropriate conditional placeholders (e.g., {{ if isEnabled }}) to utilize this method effectively.
+
+Your stub code should looks like this:
+
+```php
+<?php
+
+namespace {{ NAMESPACE }};
+
+class {{ CLASS }}
+{
+    {{ if hasController }}
+    public function controller()
+    {
+        // Controller logic here
+    }
+    {{ endif }}
+}
+```
 
 <a name="download"></a>
 ### `download`
