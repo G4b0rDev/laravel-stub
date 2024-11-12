@@ -1,6 +1,7 @@
 <?php
 
 use Binafy\LaravelStub\Facades\LaravelStub;
+use Illuminate\Support\Facades\File;
 
 use function PHPUnit\Framework\assertFileDoesNotExist;
 use function PHPUnit\Framework\assertFileExists;
@@ -99,4 +100,54 @@ test('generate stub successfully with without any replaces', function () {
     assertTrue($generate);
     assertFileExists(__DIR__ . '/../App/new-test.php');
     assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
+});
+
+test('generate stub successfully when all conditions are met', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    $testCondition = true;
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->conditions([
+            'CONDITION_ONE' => true,
+            'CONDITION_TWO' => $testCondition,
+            'CONDITION_THREE' => fn() => true,
+        ])
+        ->name('conditional-test')
+        ->ext('php')
+        ->generate();
+
+    assertTrue($generate);
+    assertFileExists(__DIR__ . '/../App/conditional-test.php');
+
+    $content = File::get(__DIR__ . '/../App/conditional-test.php');
+    expect($content)->toContain('public function handle(): void');
+    expect($content)->toContain('public function users(): void');
+    expect($content)->toContain('public function roles(): void');
+});
+
+test('generate stub successfully when conditions are not met', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    $testCondition = false;
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->conditions([
+            'CONDITION_ONE' => false,
+            'CONDITION_TWO' => $testCondition,
+            'CONDITION_THREE' => fn() => false,
+        ])
+        ->name('conditional-test-false')
+        ->ext('php')
+        ->generate();
+
+    assertTrue($generate);
+    assertFileExists(__DIR__ . '/../App/conditional-test-false.php');
+
+    $content = File::get(__DIR__ . '/../App/conditional-test-false.php');
+    expect($content)->not->toContain('public function handle(): void');
+    expect($content)->not->toContain('public function users(): void');
+    expect($content)->not->toContain('public function roles(): void');
 });
