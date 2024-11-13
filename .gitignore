@@ -4,5 +4,5 @@ composer.lock
 .phpunit.result.cache
 .phpunit.xml
 coverage
-tests/App/new-test.php
+tests/App/*.php
 tests/Feature/test.stub
