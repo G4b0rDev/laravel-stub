@@ -2,6 +2,7 @@
 
 namespace Binafy\LaravelStub;
 
+use Closure;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use RuntimeException;
@@ -49,6 +50,13 @@ class LaravelStub
      * @var bool
      */
     protected bool $moveStub = false;
+
+    /**
+     * The list of conditions.
+     *
+     * @var array
+     */
+    protected array $conditions = [];
 
     /**
      * Set stub path.
@@ -123,6 +131,19 @@ class LaravelStub
     }
 
     /**
+     * Set conditions.
+     *
+     * @param array<string, bool|mixed|Closure> $conditions
+     * @return static
+     */
+    public function conditions(array $conditions): static
+    {
+        $this->conditions = $conditions;
+
+        return $this;
+    }
+
+    /**
      * Download the stub file.
      */
     public function download()
@@ -147,7 +168,7 @@ class LaravelStub
     {
         // Check path is valid
         if (! File::exists($this->from)) {
-            throw new RuntimeException('The stub file does not exist, please enter a valid path.');
+            throw new RuntimeException("The {$this->from} stub file does not exist, please enter a valid path.");
         }
 
         // Check destination path is valid
@@ -167,6 +188,28 @@ class LaravelStub
         foreach ($this->replaces as $search => $value) {
             $content = str_replace("{{ $search }}", $value, $content);
         }
+
+        // Process conditions
+        foreach ($this->conditions as $condition => $value) {
+            if ($value instanceof Closure) {
+                $value = $value();
+            }
+
+            if ($value) {
+                // Remove condition placeholders along with any leading whitespace and newlines
+                $content = preg_replace("/^[ \t]*{{ if $condition }}\s*\n|^[ \t]*{{ endif }}\s*\n/m", '', $content);
+                continue;
+            }
+
+            // Remove the entire block including any leading whitespace and newlines
+            $content = preg_replace("/^[ \t]*{{ if $condition }}\s*\n.*?^[ \t]*{{ endif }}\s*\n/ms", '', $content);
+        }
+
+        // Remove any remaining conditional tags and their lines
+        $content = preg_replace("/^[ \t]*{{ if .*? }}\s*\n|^[ \t]*{{ endif .*? }}\s*\n/m", '', $content);
+
+        // Remove any remaining empty lines
+        $content = preg_replace("/^[ \t]*\n/m", '', $content);
 
         // Get correct path
         $path = $this->getPath();

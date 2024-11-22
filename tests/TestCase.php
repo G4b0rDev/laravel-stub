@@ -21,6 +21,27 @@ namespace {{ NAMESPACE }};
 class {{ CLASS }}
 {
     use Illuminate\Database\Eloquent\Factories\{{ TRAIT }};
+
+    {{ if CONDITION_ONE }}
+        public function handle(): void
+        {
+            //
+        }
+    {{ endif }}
+
+    {{ if CONDITION_TWO }}
+        public function users(): void
+        {
+            //
+        }
+    {{ endif }}
+
+    {{ if CONDITION_THREE }}
+        public function roles(): void
+        {
+            //
+        }
+    {{ endif }}
 }
 EOL
         );
