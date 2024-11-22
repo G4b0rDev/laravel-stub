@@ -162,6 +162,16 @@ class LaravelStub
     }
 
     /**
+     * Set stub file move without any copy.
+     */
+    public function generateIf(bool $condition): bool
+    {
+        if ($condition) {
+            return $this->generate();
+        }
+    }
+
+    /**
      * Generate stub file.
      */
     public function generate(bool $force = false): bool
