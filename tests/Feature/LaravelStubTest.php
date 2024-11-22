@@ -192,7 +192,42 @@ test('generate stub successfully when force is true', function () {
     assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
 });
 
-test('generate stub successfully with `$this->generateUnless()` method', function () {
+test('generate stub successfully with `generateIf` method', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Milwad',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->moveStub()
+        ->generateIf(true);
+
+    assertTrue($generate);
+    assertFileExists(__DIR__ . '/../App/new-test.php');
+    assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
+});
+
+test('generate stub unsuccessfully with `generateIf` method', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Milwad',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->generateIf(false);
+
+    \PHPUnit\Framework\assertFalse($generate);
+});
+
+test('generate stub successfully with `generateUnless` method', function () {
     $stub = __DIR__ . '/test.stub';
 
     $generate = LaravelStub::from($stub)
@@ -211,7 +246,7 @@ test('generate stub successfully with `$this->generateUnless()` method', functio
     assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
 });
 
-test('generate stub unsuccessfully with `$this->generateUnless()` method', function () {
+test('generate stub unsuccessfully with `generateUnless` method', function () {
     $stub = __DIR__ . '/test.stub';
 
     $generate = LaravelStub::from($stub)
