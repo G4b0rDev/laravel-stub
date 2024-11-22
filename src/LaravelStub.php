@@ -133,9 +133,17 @@ class LaravelStub
     }
 
     /**
+     * Set stub file move without any copy.
+     */
+    public function generateForce(): bool
+    {
+        return $this->generate(true);
+    }
+
+    /**
      * Generate stub file.
      */
-    public function generate(): bool
+    public function generate(bool $force = false): bool
     {
         // Check path is valid
         if (! File::exists($this->from)) {
@@ -145,6 +153,11 @@ class LaravelStub
         // Check destination path is valid
         if (! File::isDirectory($this->to)) {
             throw new RuntimeException('The given folder path is not valid.');
+        }
+
+        // Check if files exists and it not force throw exception
+        if (! File::exists($this->to) && !$force) {
+            throw new RuntimeException('The destination file does not exist, please enter a valid path.');
         }
 
         // Get file content
