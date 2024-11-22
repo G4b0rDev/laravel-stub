@@ -23,6 +23,7 @@
     - [`moveStub`](#move-stub)
     - [`download`](#download)
     - [`generate`](#generate)
+    - [`generateForce`](#generate-force)
 - [Contributors](#contributors)
 - [Security](#security)
 - [Changelog](#changelog)
@@ -229,6 +230,23 @@ class Milwad
 {
     
 }
+```
+
+<a name="generate-force"></a>
+### `generateForce`
+
+If you want to generate a stub file and overwrite it if it exists, you can use the `generateForce` method:
+
+```php
+LaravelStub::from(__DIR__ . 'model.stub')
+    ->to(__DIR__ . '/App')
+    ->name('new-model')
+    ->ext('php')
+    ->replaces([
+        'NAMESPACE' => 'App',
+        'CLASS' => 'Milwad'
+    ])
+    ->generateForce();
 ```
 
 <a name="contributors"></a>
