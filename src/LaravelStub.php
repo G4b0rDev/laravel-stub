@@ -162,11 +162,21 @@ class LaravelStub
     }
 
     /**
-     * Set stub file move without any copy.
+     * Generate stub if condition pass.
      */
     public function generateIf(bool $condition): bool
     {
         if ($condition) {
+            return $this->generate();
+        }
+    }
+
+    /**
+     * Generate stub if condition pass (reversed).
+     */
+    public function generateUnless(bool $condition): bool
+    {
+        if (! $condition) {
             return $this->generate();
         }
     }
