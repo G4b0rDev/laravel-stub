@@ -169,6 +169,8 @@ class LaravelStub
         if ($condition) {
             return $this->generate();
         }
+
+        return false;
     }
 
     /**
@@ -179,6 +181,8 @@ class LaravelStub
         if (! $condition) {
             return $this->generate();
         }
+
+        return false;
     }
 
     /**
