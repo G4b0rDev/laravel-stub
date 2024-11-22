@@ -9,12 +9,10 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * Set up.
+     * Create stub file.
      */
-    protected function setUp(): void
+    public function createStubFile(): void
     {
-        parent::setUp();
-
         File::put(__DIR__ . '/Feature/test.stub', <<<EOL
 <?php
 
@@ -25,7 +23,17 @@ class {{ CLASS }}
     use Illuminate\Database\Eloquent\Factories\{{ TRAIT }};
 }
 EOL
-);
+        );
+    }
+
+    /**
+     * Set up.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->createStubFile();
     }
 
     /**

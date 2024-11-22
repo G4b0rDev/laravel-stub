@@ -100,3 +100,40 @@ test('generate stub successfully with without any replaces', function () {
     assertFileExists(__DIR__ . '/../App/new-test.php');
     assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
 });
+
+test('generate stub successfully when force is true', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Milwad',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->moveStub()
+        ->generate();
+
+    $this->createStubFile();
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Binafy',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->moveStub()
+        ->generate();
+
+    expect(file_get_contents(__DIR__ . '/../App/new-test.php'))
+        ->toContain('Binafy')
+        ->and(file_get_contents(__DIR__ . '/../App/new-test.php'))
+        ->not->toContain('Milwad');
+
+    assertTrue($generate);
+    assertFileExists(__DIR__ . '/../App/new-test.php');
+    assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
+});
