@@ -147,7 +147,47 @@ test('generate stub successfully when conditions are not met', function () {
     assertFileExists(__DIR__ . '/../App/conditional-test-false.php');
 
     $content = File::get(__DIR__ . '/../App/conditional-test-false.php');
-    expect($content)->not->toContain('public function handle(): void');
-    expect($content)->not->toContain('public function users(): void');
-    expect($content)->not->toContain('public function roles(): void');
+    expect($content)
+        ->not->toContain('public function handle(): void')
+        ->and($content)
+        ->not->toContain('public function users(): void')
+        ->and($content)
+        ->not->toContain('public function roles(): void');
+});
+
+test('generate stub successfully when force is true', function () {
+    $stub = __DIR__ . '/test.stub';
+
+    LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Milwad',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->moveStub()
+        ->generate();
+
+    $this->createStubFile();
+
+    $generate = LaravelStub::from($stub)
+        ->to(__DIR__ . '/../App')
+        ->replaces([
+            'CLASS' => 'Binafy',
+            'NAMESPACE' => 'App\Models'
+        ])
+        ->name('new-test')
+        ->ext('php')
+        ->moveStub()
+        ->generateForce();
+
+    expect(file_get_contents(__DIR__ . '/../App/new-test.php'))
+        ->toContain('Binafy')
+        ->and(file_get_contents(__DIR__ . '/../App/new-test.php'))
+        ->not->toContain('Milwad');
+
+    assertTrue($generate);
+    assertFileExists(__DIR__ . '/../App/new-test.php');
+    assertFileDoesNotExist(__DIR__ . '/../App/test.stub');
 });
