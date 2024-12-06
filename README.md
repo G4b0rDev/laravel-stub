@@ -25,6 +25,8 @@
     - [`download`](#download)
     - [`generate`](#generate)
     - [`generateForce`](#generate-force)
+    - [`generateIf`](#generate-if)
+    - [`generateUnless`](#generate-unless)
 - [Contributors](#contributors)
 - [Security](#security)
 - [Changelog](#changelog)
@@ -290,6 +292,40 @@ LaravelStub::from(__DIR__ . 'model.stub')
         'CLASS' => 'Milwad'
     ])
     ->generateForce();
+```
+
+<a name="generate-if"></a>
+### `generateIf`
+
+If you want to generate a stub file if given boolean expression evaluates to `true`, you can use the `generateIf` method:
+
+```php
+LaravelStub::from(__DIR__ . 'model.stub')
+    ->to(__DIR__ . '/App')
+    ->name('new-model')
+    ->ext('php')
+    ->replaces([
+        'NAMESPACE' => 'App',
+        'CLASS' => 'Milwad'
+    ])
+    ->generateIf(true);
+```
+
+<a name="generate-unless"></a>
+### `generateUnless`
+
+If you want to generate a stub file if given boolean expression evaluates to `false`, you can use the `generateIf` method:
+
+```php
+LaravelStub::from(__DIR__ . 'model.stub')
+    ->to(__DIR__ . '/App')
+    ->name('new-model')
+    ->ext('php')
+    ->replaces([
+        'NAMESPACE' => 'App',
+        'CLASS' => 'Milwad'
+    ])
+    ->generateUnless(true);
 ```
 
 <a name="contributors"></a>

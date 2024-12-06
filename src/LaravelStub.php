@@ -162,6 +162,30 @@ class LaravelStub
     }
 
     /**
+     * Generate stub if condition pass.
+     */
+    public function generateIf(bool $condition): bool
+    {
+        if ($condition) {
+            return $this->generate();
+        }
+
+        return false;
+    }
+
+    /**
+     * Generate stub if condition pass (reversed).
+     */
+    public function generateUnless(bool $condition): bool
+    {
+        if (! $condition) {
+            return $this->generate();
+        }
+
+        return false;
+    }
+
+    /**
      * Generate stub file.
      */
     public function generate(bool $force = false): bool
