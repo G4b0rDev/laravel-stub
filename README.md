@@ -312,6 +312,23 @@ LaravelStub::from(__DIR__ . 'model.stub')
     ->generateIf(true);
 ```
 
+<a name="generate-unless"></a>
+### `generateUnless`
+
+If you want to generate a stub file if given boolean expression evaluates to `false`, you can use the `generateIf` method:
+
+```php
+LaravelStub::from(__DIR__ . 'model.stub')
+    ->to(__DIR__ . '/App')
+    ->name('new-model')
+    ->ext('php')
+    ->replaces([
+        'NAMESPACE' => 'App',
+        'CLASS' => 'Milwad'
+    ])
+    ->generateUnless(true);
+```
+
 <a name="contributors"></a>
 ## Contributors
 
