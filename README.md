@@ -191,7 +191,6 @@ The `conditions` method allows you to define conditional blocks within your stub
 You can specify conditions that determine whether certain parts of the stub should be included or excluded based on provided values or closures.
 
 ```php
-<?php
 LaravelStub::from(__DIR__ . 'model.stub')
     ->to(__DIR__ . '/App')
     ->name('new-model')
