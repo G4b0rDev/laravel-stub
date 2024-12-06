@@ -201,7 +201,7 @@ LaravelStub::from(__DIR__ . 'model.stub')
     ])
     ->conditions([
         'hasController' => true,
-        'hasController' => fn() => return false, // or with closure
+        'hasController' => fn() => false, // or with closure
     ])
     ->generate();
 ```
